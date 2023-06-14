@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Hash Function</title>
+    <script>
+        String.prototype.hashCode = function() {
+            var hash = 0,
+            i, chr;
+            if (this.length === 0) return hash;
+            for (i = 0; i < this.length; i++) {
+                chr = this.charCodeAt(i);
+                hash = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return hash;
+        }
+
+        function hashAndCompare() {
+            var str = document.getElementById('inputString').value;
+            var providedHash = document.getElementById('providedHash').value;
+
+            var computedHash = str.hashCode();
+
+            if (computedHash == providedHash) {
+                alert('The computed hash matches the provided hash!');
+            } else {
+                alert('The computed hash does not match the provided hash. Computed hash: ' + computedHash);
+            }
+        }
+    </script>
+</head>
+<body>
+    <label for="inputString">Input String:</label><br>
+    <input type="text" id="inputString" name="inputString"><br>
+    <label for="providedHash">Provided Hash:</label><br>
+    <input type="text" id="providedHash" name="providedHash"><br>
+    <button onclick="hashAndCompare()">Hash and Compare</button>
+</body>
+</html>

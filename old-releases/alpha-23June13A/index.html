@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>평가원 분석 도우미</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    table {
+      border-collapse: collapse;
+      font-family: Arial, sans-serif;
+      margin: 20px auto;
+      border: 2px solid #ddd;
+    }
+
+    table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    table td.current {
+      background-color: #f0f0f0;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .hash-input {
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    .hash-input input {
+      padding: 5px;
+      width: 300px;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .result .success {
+      color: green;
+    }
+
+    .result .failure {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h2>평가원 분석 도우미</h2>
+  <table id="table"></table>
+
+  <div class="hash-input">
+    <input type="text" id="hashInput" placeholder="답지의 해시값을 입력해주세요" oninput="updateHashAndCompare()">
+    <div id="realTimeHash" style="margin-top: 10px;">해시값</div>
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script>
+    // Create a 9x5 table
+    const table = Array.from({ length: 9 }, () => Array(5).fill(''));
+
+    let currentRow = 0;
+    let currentColumn = 0;
+
+    // Function to display the table
+    function displayTable() {
+      const tableElement = document.getElementById('table');
+      tableElement.innerHTML = '';
+
+      for (let row = 0; row < table.length; row++) {
+        const rowElement = document.createElement('tr');
+
+        // Add row labels
+        const labelCell = document.createElement('td');
+        const label = `${row * 5 + 1}번 - ${row * 5 + 5}번`;
+        labelCell.textContent = label;
+        rowElement.appendChild(labelCell);
+
+        for (let col = 0; col < table[row].length; col++) {
+          const cellElement = document.createElement('td');
+          if (row === currentRow && col === currentColumn) {
+            cellElement.classList.add('current');
+          }
+          cellElement.contentEditable = true;
+          cellElement.addEventListener('input', updateHashAndCompare);
+          cellElement.addEventListener('click', () => setCurrentCell(row, col));
+          cellElement.innerText = table[row][col];
+          rowElement.appendChild(cellElement);
+        }
+        tableElement.appendChild(rowElement);
+      }
+
+      // Place the cursor in the highlighted cell
+      const currentCell = tableElement.querySelector('.current');
+      currentCell.focus();
+    }
+
+    // Function to calculate the SHA-256 hash of a string
+    function calculateHash(value) {
+      return CryptoJS.SHA256(value).toString();
+    }
+
+    // Function to update the hash value in real-time and compare the hashes
+    function updateHashAndCompare() {
+      const providedHash = document.getElementById('hashInput').value.trim();
+      const concatenatedValues = table.flat().join('');
+      const hashElement = document.getElementById('realTimeHash');
+      const calculatedHash = calculateHash(concatenatedValues);
+
+      hashElement.innerText = `해시값: ${calculatedHash}`;
+
+      const resultElement = document.getElementById('result');
+      if (calculatedHash === providedHash) {
+        resultElement.innerText = '해시값이 일치합니다!';
+        resultElement.classList.remove('failure');
+        resultElement.classList.add('success');
+      } else {
+        resultElement.innerText = '해시값이 일치하지 않습니다!';
+        resultElement.classList.remove('success');
+        resultElement.classList.add('failure');
+      }
+    }
+
+    // Function to set the current cell
+    function setCurrentCell(row, col) {
+      currentRow = row;
+      currentColumn = col;
+      displayTable();
+    }
+
+    // Function to move to the next cell
+    function moveToNextCell() {
+      if (currentColumn === table[currentRow].length - 1) {
+        if (currentRow === table.length - 1) {
+          // compareHash();
+        } else {
+          currentRow++;
+          currentColumn = 0;
+        }
+      } else {
+        currentColumn++;
+      }
+      displayTable();
+    }
+
+    // Function to handle user input and update the value of the current cell
+    function handleInput(value) {
+      table[currentRow][currentColumn] = value;
+      updateHashAndCompare();
+      moveToNextCell();
+    }
+
+    // Start the program
+    displayTable();
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Tab') {
+        moveToNextCell();
+        event.preventDefault();
+      } else if (!isNaN(event.key)) {
+        handleInput(event.key);
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>

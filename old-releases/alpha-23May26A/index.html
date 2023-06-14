@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>답지 체크</title>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script>
+        async function hashAndCompare() {
+            var str = document.getElementById('inputString').value;
+            var providedHash = document.getElementById('providedHash').value;
+
+            const msgUint8 = new TextEncoder().encode(str);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const computedHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            var messageBox = document.getElementById('messageBox');
+
+            if (computedHash === providedHash) {
+                messageBox.textContent = '입력된 답이 올바릅니다.';
+                messageBox.style.backgroundColor = 'green';
+            } else {
+                messageBox.textContent = '잘못된 답이 존재합니다. 입력된 답안 데이터: ' + computedHash;
+                messageBox.style.backgroundColor = 'red';
+            }
+            messageBox.style.display = 'block';
+        }
+
+        function toggleDarkMode() {
+            var body = document.body;
+            body.classList.toggle('dark-mode');
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.5s ease;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        label, input, button {
+            display: block;
+            margin: 0 auto 1em auto;
+        }
+
+        input {
+            width: 50ch;
+            padding: 0.5em;
+            border-radius: 15px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 0.5em 1em;
+            font-size: 1em;
+            font-weight: 700;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: #fff;
+            transition: background-color 0.5s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dark-mode input {
+            border-color: #777;
+            background-color: #555;
+            color: #fff;
+        }
+
+        .dark-mode button {
+            background-color: #555;
+        }
+
+        .dark-mode button:hover {
+            background-color: #777;
+        }
+
+        #messageBox {
+            display: none;
+            padding: 1em;
+            margin-bottom: 1em;
+            border-radius: 15px;
+            color: white;
+            transition: background-color 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="messageBox"></div>
+        <label for="inputString"><b>답안:</b></label>
+        <input type="text" id="inputString" name="inputString">
+        <label for="providedHash"><b>답지 데이터:</b></label>
+        <input type="text" id="providedHash" name="providedHash">
+        <button onclick="hashAndCompare()">체크하기</button>
+        <button onclick="toggleDarkMode()">다크모드</button>
+    </div>
+</body>
+</html>
