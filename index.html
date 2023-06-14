@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>평가원 분석 도우미</title>
+	<meta charset="utf-8">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+		
+		.container {
+			text-align: center;
+			margin-top: 5%;
+		}
+		
+		table {
+			border-collapse: collapse;
+			width: 25%;
+			margin: 0 auto;
+			table-layout: fixed;
+			height: 100%;
+		}
+		
+		td {
+			border: 1px solid #ccc;
+			padding: 1%;
+			padding-top: 2%;
+			padding-bottom: 2%;
+			position: relative;
+			text-align: center;
+			width: 21%;
+			font-size: 250%;
+		}
+		
+		td[contenteditable]:focus {
+			outline: none;
+			border: 1px solid #007bff;
+			background-color: #fff;
+			box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+			width: 9%;
+		}
+
+		td[contenteditable] {
+			outline: none;
+			background-color: #fff;
+			width: 9%;
+		}
+		
+		.compare-container {
+			margin-top: 20px;
+			text-align: center;
+		}
+		
+		.compare-container input[type="text"] {
+			width: 20%;
+			padding: 15px;
+			font-size: 14px;
+		}
+		
+		.result-message {
+			margin-top: 20px;
+			font-weight: bold;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			cursor: pointer;
+		}
+		
+		.result-message:before {
+			content: attr(data-table);
+			position: absolute;
+			bottom: -30px;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: #fff;
+			color: #000;
+			padding: 5px;
+			border-radius: 5px;
+			z-index: 999;
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 0.3s ease, visibility 0.3s ease;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+			border: 1px solid #ccc;
+			text-align: center;
+			font-size: 14px;
+		}
+		
+		.result-message:hover:before {
+			opacity: 1;
+			visibility: visible;
+		}
+		
+		.result-icon {
+			display: inline-block;
+			margin-right: 5px;
+			width: 24px;
+			height: 24px;
+		}
+
+		@media only screen and (max-width: 2550px) {
+			table {
+				width: 40%;
+			}
+			.compare-container input[type="text"] {
+				width: 35%;
+			}
+		}
+
+		@media only screen and (max-width: 1880px) {
+			table {
+				width: 60%;
+			}
+			.compare-container input[type="text"] {
+				width: 55%;
+			}
+		}
+
+		@media only screen and (max-width: 1440px) {
+			table {
+				width: 100%;
+			}
+			.compare-container input[type="text"] {
+				width: 90%;
+			}
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1 style="font-size: 400%;">평가원 분석 도우미</h1>
+		
+		<table>
+			<tbody>
+				<tr>
+					<td>1번 - 5번</td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+				</tr>
+				<tr>
+						<td>6번 - 10번</td>  
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+				</tr>
+				<tr>
+						<td>11번 - 15번</td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+				</tr>
+				<tr>
+						<td>16번 - 20번</td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+				</tr>
+				<tr>
+						<td>21번 - 25번</td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+				</tr>
+				<tr>
+						<td>26번 - 30번</td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+				</tr>
+				<tr>
+						<td>31번 - 35번</td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+				</tr>
+				<tr>
+						<td>36번 - 40번</td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+				</tr>
+				<tr>
+						<td>41번 - 45번</td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+					<td contenteditable="true" maxlength="1" required oninput="validateCell(event)"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div class="compare-container">
+			<input type="text" id="compareInput" placeholder="답지의 해시값을 입력해주세요." required />
+		</div>
+		
+		<div class="result-message" id="resultMessage" data-table="" onclick="copyHashValue()">
+		</div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+	<script>
+		function validateCell(event) {
+			var cell = event.target;
+			var value = cell.textContent.trim();
+			var digit = value.match(/\d/);
+			
+			if (!digit) {
+				cell.textContent = '';
+			} else {
+				cell.textContent = digit[0];
+				
+				var currentRow = cell.parentNode;
+				var currentIndex = Array.prototype.indexOf.call(currentRow.children, cell);
+				
+				if (currentIndex < currentRow.children.length - 1 && value.length === 1) {
+					var nextCell = currentRow.children[currentIndex + 1];
+					nextCell.focus();
+				} else if (currentIndex === currentRow.children.length - 1 && currentRow.nextElementSibling) {
+					var nextRow = currentRow.nextElementSibling;
+					var nextCell = nextRow.children[1];
+					nextCell.focus();
+				} else if (currentIndex === currentRow.children.length - 1 && !currentRow.nextElementSibling) {
+					document.getElementById('compareInput').focus();
+				} else {
+					var nextCell = currentRow.children[currentIndex + 1];
+					nextCell.focus();
+				}
+			}
+
+			compareInput();
+		}
+
+		function calculateHash(value) {
+			return CryptoJS.SHA256(value).toString();
+		}
+		
+		function readTable() {
+			var tableData = '';
+			var rows = document.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+			for (var i = 0; i < rows.length; i++) {
+				var cells = rows[i].getElementsByTagName('td');
+				for (var j = 1; j < cells.length; j++) {
+					var value = cells[j].textContent.trim();
+					tableData += value;
+				}
+			}
+			return calculateHash(tableData);
+		}
+		
+		function compareInput() {
+			var compareInput = document.getElementById('compareInput').value.trim();
+			var tableData = readTable();
+			
+			var resultMessage = document.getElementById('resultMessage');
+			
+			if (compareInput === tableData) {
+				resultMessage.textContent = '해시값이 일치합니다!';
+				// resultMessage.style.color = 'green';
+				resultMessage.innerHTML = '<img class="result-icon" src="match.png" alt="Match" />' + resultMessage.innerHTML;
+			} else {
+				resultMessage.textContent = '해시값이 일치하지 않습니다!';
+				// resultMessage.style.color = 'red';
+				resultMessage.innerHTML = '<img class="result-icon" src="nomatch.png" alt="No Match" />' + resultMessage.innerHTML;
+			}
+			resultMessage.dataset.table = "해시값 (클릭하여 복사): " + tableData;
+
+		}
+		
+		function copyHashValue() {
+			var resultMessage = document.getElementById('resultMessage');
+			var hashValue = resultMessage.dataset.table;
+			
+			if (hashValue) {
+				navigator.clipboard.writeText(readTable()).then(function() {
+					resultMessage.textContent = '해시값이 복사되었습니다!';
+					resultMessage.innerHTML = '<img class="result-icon" src="match.png" alt="Match" />' + resultMessage.innerHTML;
+					// Wait 3 seconds and call compareInput() to reset the message
+						setTimeout(compareInput, 3000);
+				}).catch(function(err) {
+					console.error('Failed to copy:', err);
+				});
+			}
+		}
+		
+		document.addEventListener('keydown', function(event) {
+			if (event.key === 'Enter') {
+				compareInput();
+				event.preventDefault();
+			}
+		});
+	</script>
+</body>
+</html>
