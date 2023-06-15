@@ -102,8 +102,8 @@
 		.result-icon {
 			display: inline-block;
 			margin-right: 5px;
-			width: 24px;
-			height: 24px;
+			width: 48px;
+			height: 48px;
 		}
 
 		@media only screen and (max-width: 2550px) {
@@ -283,11 +283,11 @@
 			if (compareInput === tableData) {
 				resultMessage.textContent = '해시값이 일치합니다!';
 				// resultMessage.style.color = 'green';
-				resultMessage.innerHTML = '<img class="result-icon" src="match.png" alt="Match" />' + resultMessage.innerHTML;
+				resultMessage.innerHTML = '<img class="result-icon" src="match.svg" alt="Match" />' + resultMessage.innerHTML;
 			} else {
 				resultMessage.textContent = '해시값이 일치하지 않습니다!';
 				// resultMessage.style.color = 'red';
-				resultMessage.innerHTML = '<img class="result-icon" src="nomatch.png" alt="No Match" />' + resultMessage.innerHTML;
+				resultMessage.innerHTML = '<img class="result-icon" src="nomatch.svg" alt="No Match" />' + resultMessage.innerHTML;
 			}
 			resultMessage.dataset.table = "해시값 (클릭하여 복사): " + tableData;
 
@@ -300,9 +300,8 @@
 			if (hashValue) {
 				navigator.clipboard.writeText(readTable()).then(function() {
 					resultMessage.textContent = '해시값이 복사되었습니다!';
-					resultMessage.innerHTML = '<img class="result-icon" src="match.png" alt="Match" />' + resultMessage.innerHTML;
-					// Wait 3 seconds and call compareInput() to reset the message
-						setTimeout(compareInput, 3000);
+					resultMessage.innerHTML = '<img class="result-icon" src="match.svg" alt="Match" />' + resultMessage.innerHTML;
+					setTimeout(compareInput, 3000);
 				}).catch(function(err) {
 					console.error('Failed to copy:', err);
 				});
