@@ -113,6 +113,13 @@
 			.compare-container input[type="text"] {
 				width: 35%;
 			}
+			.result-message {
+				font-size: 80%;
+			}
+			.result-icon {
+				width: 1%;
+				height: 1%;
+			}
 		}
 
 		@media only screen and (max-width: 1880px) {
@@ -122,6 +129,13 @@
 			.compare-container input[type="text"] {
 				width: 55%;
 			}
+			.result-message {
+				font-size: 100%;
+			}
+			.result-icon {
+				width: 5%;
+				height: 5%;
+			}
 		}
 
 		@media only screen and (max-width: 1440px) {
@@ -130,6 +144,13 @@
 			}
 			.compare-container input[type="text"] {
 				width: 90%;
+			}
+			.result-message {
+				font-size: 250%;
+			}
+			.result-icon {
+				width: 15%;
+				height: 15%;
 			}
 		}
 		
@@ -282,11 +303,9 @@
 			
 			if (compareInput === tableData) {
 				resultMessage.textContent = '해시값이 일치합니다!';
-				// resultMessage.style.color = 'green';
 				resultMessage.innerHTML = '<img class="result-icon" src="match.svg" alt="Match" />' + resultMessage.innerHTML;
 			} else {
 				resultMessage.textContent = '해시값이 일치하지 않습니다!';
-				// resultMessage.style.color = 'red';
 				resultMessage.innerHTML = '<img class="result-icon" src="nomatch.svg" alt="No Match" />' + resultMessage.innerHTML;
 			}
 			resultMessage.dataset.table = "해시값 (클릭하여 복사): " + tableData;
